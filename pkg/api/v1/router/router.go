@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// InitRoutes Load controller (handler)
+//InitRoutes Load handlers
 func InitRoutes(router *mux.Router) *mux.Router {
 	var api = router.PathPrefix("/api/v1").Subrouter()
 

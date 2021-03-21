@@ -37,7 +37,7 @@ func getVarsDB() (string, string, string, string, error) {
 	return userDB, passDB, hostDB, nameDB, nil
 }
 
-// DB database
+//DB database
 var DB *sql.DB
 
 const (
@@ -45,7 +45,7 @@ const (
 	waitForConnexion    = 3
 )
 
-// ConnectToDB Make connexion with database
+//ConnectToDB Make connexion with database
 func ConnectToDB() error {
 	userDB, passDB, hostDB, nameDB, err := getVarsDB()
 	if err != nil {

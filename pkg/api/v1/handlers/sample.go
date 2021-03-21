@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/wyllisMonteiro/go-api-template/services"
 )
 
-// Sample stores sample data
+//Sample stores sample data
 type Sample struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
-// GetSample returns json with sample
+//GetSample returns json with sample
 func GetSample(w http.ResponseWriter, req *http.Request) {
 	sample := Sample{
 		ID:   1,

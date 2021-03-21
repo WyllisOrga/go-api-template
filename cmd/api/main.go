@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/wyllisMonteiro/go-api-template/models"
-	"github.com/wyllisMonteiro/go-api-template/router"
+	"github.com/wyllisMonteiro/go-api-template/pkg/models"
+	"github.com/wyllisMonteiro/go-api-template/pkg/api/v1/router"
 )
 
 func main() {
