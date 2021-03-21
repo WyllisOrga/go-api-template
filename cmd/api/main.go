@@ -4,14 +4,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	"github.com/wyllisMonteiro/go-api-template/pkg/models"
-	"github.com/wyllisMonteiro/go-api-template/pkg/api/v1/router"
+	v1 "github.com/wyllisMonteiro/go-api-template/pkg/api/v1"
 )
 
 func main() {
-	r := mux.NewRouter()
-	router.InitRoutes(r)
+	gin.ForceConsoleColor()
+	r := gin.Default()
+	v1.InitRoutes(r)
 
 	err := models.ConnectToDB()
 	if err != nil {

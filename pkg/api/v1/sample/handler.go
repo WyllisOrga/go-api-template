@@ -1,9 +1,8 @@
-package handlers
+package sample
 
 import (
 	"net/http"
-
-	"github.com/wyllisMonteiro/go-api-template/services"
+	"github.com/gin-gonic/gin"
 )
 
 //Sample stores sample data
@@ -13,10 +12,11 @@ type Sample struct {
 }
 
 //GetSample returns json with sample
-func GetSample(w http.ResponseWriter, req *http.Request) {
+func GetSample(c *gin.Context) {
 	sample := Sample{
 		ID:   1,
 		Name: "Wyllis",
 	}
-	services.WriteJSON(w, http.StatusOK, sample)
+
+	c.JSON(http.StatusOK, sample)
 }
