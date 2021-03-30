@@ -28,8 +28,8 @@ jobs:
 
       - name: Create .artifacts folder
         run: |
-          ls
           mkdir -p .artifacts
+          ls -a
 
       - name: Lint
         if: ${{ failure() }}
