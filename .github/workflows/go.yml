@@ -27,7 +27,7 @@ jobs:
           fi
       - name: Create .artifacts folder
         run: |
-          mkdir .artifacts/linter
+          mkdir -p .artifacts/linter
       - name: Lint
         if: ${{ failure() }}
         run: |
