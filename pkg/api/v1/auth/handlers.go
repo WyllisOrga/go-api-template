@@ -7,12 +7,6 @@ import (
 	"github.com/wyllisMonteiro/go-api-template/pkg/models"
 )
 
-type requestRegister struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-}
-
 type responseRegister struct {
 	Message string `json:"message"`
 }
@@ -23,8 +17,8 @@ type responseRegister struct {
 // @Tags auth
 // @Accept  json
 // @Produce  json
-// @Param body body requestRegister true "Add account"
-// @Success 200 {object} responseRegister
+// @Param body body models.RequestRegister true "Add account"
+// @Success 200 {string} string "message"
 // @Failure 500 {object} httputil.HTTPError
 // @Router /register [post]
 func Register(c *gin.Context) {
@@ -42,7 +36,9 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, responseRegister{Message: "created"})
+	c.JSON(http.StatusServiceUnavailable, gin.H{
+		"message": "created",
+	})
 }
 
 type requestLogin struct {

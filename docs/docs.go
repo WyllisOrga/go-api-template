@@ -130,15 +130,15 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.requestRegister"
+                            "$ref": "#/definitions/models.RequestRegister"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "message",
                         "schema": {
-                            "$ref": "#/definitions/auth.responseRegister"
+                            "type": "string"
                         }
                     },
                     "500": {
@@ -163,28 +163,6 @@ var doc = `{
                 }
             }
         },
-        "auth.requestRegister": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth.responseRegister": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "httputil.HTTPError": {
             "type": "object",
             "properties": {
@@ -195,6 +173,20 @@ var doc = `{
                 "message": {
                     "type": "string",
                     "example": "status bad request"
+                }
+            }
+        },
+        "models.RequestRegister": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
