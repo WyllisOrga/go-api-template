@@ -25,12 +25,15 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
           fi
+      - name: Create .artifacts folder
+        run: |
+          mkdir .artifacts/linter
       - name: Lint
         if: ${{ failure() }}
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
           golangci-lint run
-      - name: Archive production artifacts
+      - name: Archive dev artifacts
         uses: actions/upload-artifact@v2
         with:
           name: linter
