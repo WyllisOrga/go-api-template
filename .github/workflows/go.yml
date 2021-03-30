@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: linter
-          path: .artifacts/linter
+          path: .artifacts/linter/linter.txt
       - name: Tests
         run: |
           go test ./... -v
