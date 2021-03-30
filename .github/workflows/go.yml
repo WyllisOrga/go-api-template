@@ -35,10 +35,8 @@ jobs:
         run: |
           ls
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
-          cd .artifacts
-          golangci-lint run > linter.txt
-          ls -a
-          cd ..
+          golangci-lint run > .artifacts/linter.txt
+          ls -a ./.artifacts
           ls -a
 
       - name: Archive dev artifacts
