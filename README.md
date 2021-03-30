@@ -5,29 +5,45 @@
 Here is description
 
 ## Prerequisite :wrench:
+
 - [Docker installed](https://docs.docker.com/engine/install/)
 - [Docker-compose installed](https://docs.docker.com/compose/install/)
 - [Golang installed](https://golang.org/doc/install/)
 
 ## Feature(s) :blue_book: (incoming)
+
 - Feature 1
 - Feature 2
 - Feature 3
 
 ## Conventions :orange_book:
+
 - [Commit conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153#format-of-the-commit-message)
 
 ## Run project :tractor:
+
 ```sh
 $ docker-compose up --build
 ```
 
+## Swagger doc
+
+To generate swagger doc
+
+```sh
+$ swag init -g ./cmd/api/main.go -o ./docs
+```
+
+Go in `http://localhost:8080/swagger/index.html`
+
 ## Pipeline :book:
+
 - Lint test
 - Unit tests
 
 ## Libraries :books:
-- Link 1 
+
+- Link 1
 - Link 2
 - Link 3
 
@@ -41,4 +57,5 @@ $ docker-compose up --build
 </table>
 
 ## License 📑
+
 [MIT](Put link)
