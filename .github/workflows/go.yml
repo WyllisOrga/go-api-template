@@ -28,6 +28,7 @@ jobs:
 
       - name: Create .artifacts folder
         run: |
+          ls
           mkdir -p .artifacts
 
       - name: Lint
