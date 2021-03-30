@@ -33,11 +33,8 @@ jobs:
 
       - name: Lint
         run: |
-          ls
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
           golangci-lint run -v > .artifacts/linter.txt
-          ls -a ./.artifacts
-          ls -a
 
       - name: Archive dev artifacts
         uses: actions/upload-artifact@v2
@@ -46,5 +43,10 @@ jobs:
           path: .artifacts
 
       - name: Tests
+        if: ${{ always() }}
         run: |
+          ls
+          cd ./artifacts
+          ls
+          cd ..
           go test ./... -v
