@@ -15,10 +15,7 @@ func NewAuth() (jwt.Auth, error) {
 	return jwt.New(jwt.Auth{
 		SecretKey: []byte("S3CR3TK3Y733T"),
 		Authenticator: func(c *gin.Context) (jwt.MapClaims, error) {
-			var req struct {
-				Username string `json:"username"`
-				Password string `json:"password"`
-			}
+			var req models.RequestLogin
 
 			if err := c.ShouldBind(&req); err != nil {
 				return nil, jwt.ErrorAuthenticationFailed

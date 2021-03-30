@@ -1,12 +1,5 @@
 basePath: /api/v1
 definitions:
-  auth.requestLogin:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
-    type: object
   httputil.HTTPError:
     properties:
       code:
@@ -14,6 +7,13 @@ definitions:
         type: integer
       message:
         example: status bad request
+        type: string
+    type: object
+  models.RequestLogin:
+    properties:
+      password:
+        type: string
+      username:
         type: string
     type: object
   models.RequestRegister:
@@ -81,7 +81,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/auth.requestLogin'
+          $ref: '#/definitions/models.RequestLogin'
       produces:
       - application/json
       responses:

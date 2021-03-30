@@ -7,10 +7,6 @@ import (
 	"github.com/wyllisMonteiro/go-api-template/pkg/models"
 )
 
-type responseRegister struct {
-	Message string `json:"message"`
-}
-
 // Register New account
 // @Summary Create new account
 // @Description Using JWT auth
@@ -41,18 +37,13 @@ func Register(c *gin.Context) {
 	})
 }
 
-type requestLogin struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 // Login An account
 // @Summary Connect user to app
 // @Description Using JWT auth (look headers for token)
 // @Tags auth
 // @Accept  json
 // @Produce  json
-// @Param body body requestLogin true "Log account"
+// @Param body body models.RequestLogin true "Log account"
 // @Success 200 {string} string ""
 // @Failure 500 {object} httputil.HTTPError
 // @Router /login [post]
