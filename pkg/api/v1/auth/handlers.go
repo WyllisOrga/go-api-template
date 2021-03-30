@@ -13,7 +13,20 @@ type requestRegister struct {
 	Email    string `json:"email"`
 }
 
-//Register routes for creating account
+type responseRegister struct {
+	Message string `json:"message"`
+}
+
+// Register New account
+// @Summary Create new account
+// @Description Using JWT auth
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param body body requestRegister true "Add account"
+// @Success 200 {object} responseRegister
+// @Failure 500 {object} httputil.HTTPError
+// @Router /register [post]
 func Register(c *gin.Context) {
 	var req models.RequestRegister
 
@@ -29,7 +42,25 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Account_created",
-	})
+	c.JSON(http.StatusCreated, responseRegister{Message: "created"})
+}
+
+type requestLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+// Login An account
+// @Summary Connect user to app
+// @Description Using JWT auth (look headers for token)
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param body body requestLogin true "Log account"
+// @Success 200 {string} string ""
+// @Failure 500 {object} httputil.HTTPError
+// @Router /login [post]
+func Login(c *gin.Context) {
+	// call jwt.Auth.Authenticate()
+	// useless func, but help to make swagger doc
 }

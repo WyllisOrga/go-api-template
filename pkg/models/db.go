@@ -7,34 +7,16 @@ import (
 	"log"
 	"time"
 
+	env "github.com/caarlos0/env/v6"
 	// usefull to import mysql
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/wyllisMonteiro/go-api-template/services"
 )
 
-func getVarsDB() (string, string, string, string, error) {
-	userDB, err := services.GoDotEnvVariable("USERDB")
-	if err != nil {
-
-		return "", "", "", "", err
-	}
-
-	passDB, err := services.GoDotEnvVariable("PASSDB")
-	if err != nil {
-		return "", "", "", "", err
-	}
-
-	hostDB, err := services.GoDotEnvVariable("HOSTDB")
-	if err != nil {
-		return "", "", "", "", err
-	}
-
-	nameDB, err := services.GoDotEnvVariable("NAMEDB")
-	if err != nil {
-		return "", "", "", "", err
-	}
-
-	return userDB, passDB, hostDB, nameDB, nil
+type config struct {
+	User string `env:"MYSQL_USER"`
+	Pass string `env:"MYSQL_PASSWORD"`
+	Database string `env:"MYSQL_DATABASE"`
+	Host string `env:"DB_HOST"`
 }
 
 //DB database
@@ -47,13 +29,13 @@ const (
 
 //ConnectToDB Make connexion with database
 func ConnectToDB() error {
-	userDB, passDB, hostDB, nameDB, err := getVarsDB()
-	if err != nil {
+	cfg := config{}
+	if err := env.Parse(&cfg); err != nil {
 		return err
 	}
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", userDB, passDB, hostDB, nameDB)
-	DB, err = sql.Open("mysql", dsn)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", cfg.User, cfg.Pass, cfg.Host, cfg.Database)
+	DB, err := sql.Open("mysql", dsn)
 
 	if err != nil {
 		return err

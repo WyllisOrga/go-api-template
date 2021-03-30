@@ -7,11 +7,11 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: ${NAMEDB}
-      MYSQL_USER: ${USERDB}
-      MYSQL_PASSWORD: ${PASSDB}
-      DB_HOST: ${HOSTDB}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      DB_HOST: ${DB_HOST}
     ports:
       - "3306:3306"
 
@@ -19,13 +19,14 @@ services:
     depends_on:
       - db
     container_name: api
-    ports: 
-      - "9000:9000"
-    environment: 
-      MYSQL_USER: ${USERDB}
-      MYSQL_PASSWORD: ${PASSDB}
-      MYSQL_DATABASE: ${NAMEDB}
-    build: 
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      DB_HOST: ${DB_HOST}
+    build:
       context: ./
       dockerfile: build/Dockerfile-api
 

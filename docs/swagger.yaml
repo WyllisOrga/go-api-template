@@ -1,0 +1,130 @@
+basePath: /api/v1
+definitions:
+  auth.requestLogin:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.requestRegister:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.responseRegister:
+    properties:
+      message:
+        type: string
+    type: object
+  httputil.HTTPError:
+    properties:
+      code:
+        example: 500
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  sample.Sample:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: wyllismonteiro@gmail.com
+  description: API.
+  license:
+    name: MIT
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger API Project
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Get all samples
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sample.Sample'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Show Sample
+      tags:
+      - sample
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Using JWT auth (look headers for token)
+      parameters:
+      - description: Log account
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.requestLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Connect user to app
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Using JWT auth
+      parameters:
+      - description: Add account
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.requestRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.responseRegister'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Create new account
+      tags:
+      - auth
+swagger: "2.0"
