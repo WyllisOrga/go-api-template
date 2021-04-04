@@ -54,7 +54,7 @@ jobs:
           path: .artifacts
 
   doc:
-    name: Update github pages
+    name: Publish to github pages
     needs: build
     runs-on: ubuntu-18.04
     steps:
