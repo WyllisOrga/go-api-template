@@ -9,15 +9,19 @@ on:
       - "*"
 
 jobs:
+  test-packages:
+    name: add useless job to avoid error (The workflow is not valid. The workflow must contain at least one job with no dependencies.)
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: test package
+        run: echo "Running test"
+
   doc:
     name: Make documentation
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: make documentation
-        run: echo "Generate documentation"
-
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
