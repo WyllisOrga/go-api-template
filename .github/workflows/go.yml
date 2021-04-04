@@ -54,7 +54,7 @@ jobs:
           path: .artifacts
 
   doc:
-    name: Make documentation
+    name: Update github pages
     needs: build
     runs-on: ubuntu-18.04
     steps:
@@ -63,6 +63,14 @@ jobs:
         with:
           name: artifacts
 
-      - shell: bash
-        run: |
-          ls docs
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui
+          spec-file: docs/swagger.json
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: swagger-ui
