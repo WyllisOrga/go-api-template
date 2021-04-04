@@ -62,5 +62,4 @@ jobs:
           name: artifacts
       - shell: bash
         run: |
-          ls
-          cat linter.txt`
+          cat linter.txt
