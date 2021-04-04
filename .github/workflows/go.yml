@@ -56,10 +56,9 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - name: Download artifact from job build
-        uses: actions/download-artifact@v2
-        with:
-          name: artifacts
-      - shell: bash
+      - name: swagger
+        if: ${{ always() }}
         run: |
-          cat linter.txt
+          go get -u github.com/swaggo/swag/cmd/swag
+          swag init -g ./cmd/api/main.go -o .
+          ls
