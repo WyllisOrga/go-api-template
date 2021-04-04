@@ -1,4 +1,4 @@
-name: Build
+name: Go
 
 on:
   push:
@@ -50,3 +50,16 @@ jobs:
         run: |
           go get -u github.com/swaggo/swag/cmd/swag
           swag init -g ./cmd/api/main.go -o ./docs
+
+  doc:
+    name: Make documentation
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download artifact from job build
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+      - shell: bash
+        run: |
+          cat linter.txt`
