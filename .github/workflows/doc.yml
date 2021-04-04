@@ -14,6 +14,10 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v1
+      - name: make documentation
+        run: echo "Generate documentation"
+
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
