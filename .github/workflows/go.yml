@@ -58,7 +58,11 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - name: swagger
-        if: ${{ always() }}
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+
+      - shell: bash
         run: |
-          ls
+          ls docs
