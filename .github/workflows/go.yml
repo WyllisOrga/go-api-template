@@ -42,7 +42,8 @@ jobs:
         if: ${{ always() }}
         run: |
           go get -u github.com/swaggo/swag/cmd/swag
-          swag init -g ./cmd/api/main.go -o ./docs > ./.artifacts
+          swag init -g ./cmd/api/main.go -o ./docs
+          mv ./docs ./.artifacts
           ls
 
       - name: Archive linter artifacts
