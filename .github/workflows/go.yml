@@ -33,23 +33,24 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.39.0
           golangci-lint run > ./.artifacts/linter.txt
 
-      - name: Archive dev artifacts
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifacts
-          path: .artifacts
-
       - name: Tests
         if: ${{ always() }}
         run: |
           go test ./... -v
 
-      - name: swagger
+      - name: Generate swagger files
         if: ${{ always() }}
         run: |
           go get -u github.com/swaggo/swag/cmd/swag
-          swag init -g ./cmd/api/main.go -o ./docs
+          swag init -g ./cmd/api/main.go -o ./docs > ./.artifacts
+          ls
+
+      - name: Archive linter artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: .artifacts
 
   doc:
     name: Make documentation
@@ -59,6 +60,4 @@ jobs:
       - name: swagger
         if: ${{ always() }}
         run: |
-          go get -u github.com/swaggo/swag/cmd/swag
-          swag init -g ./cmd/api/main.go -o .
           ls
