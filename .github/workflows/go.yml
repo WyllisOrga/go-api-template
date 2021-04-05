@@ -64,13 +64,13 @@ jobs:
       - name: Show env var
         run: |
           echo ${{ secrets.GITHUB_JOB }}
-          echo ${{ env.SONAR_HOST_URL }}
+          echo ${{ SONAR_HOST_URL }}
 
       - uses: docker://sonarsource/sonar-scanner-cli:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ SONAR_HOST_URL }}
 
   doc:
     name: Publish to github pages
