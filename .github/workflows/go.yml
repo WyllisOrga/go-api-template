@@ -61,12 +61,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Show env var
-        run: |
-          echo $SONAR_TOKEN
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_HOST_URL }}
-
       - uses: docker://sonarsource/sonar-scanner-cli:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
