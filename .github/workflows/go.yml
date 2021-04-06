@@ -54,10 +54,11 @@ jobs:
           path: .artifacts
 
   security:
-    name: Publish to SonarCloud
+    name: Check security with sonarqube and codeql
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      - name: Initialize Sonarqube
         with:
           fetch-depth: 0
 
@@ -66,6 +67,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: go
+
+      # Here is where you build your code
+      #- run: |
+      #  make bootstrap
+      #  make release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
 
   doc:
     name: Publish to github pages
