@@ -3,20 +3,21 @@ name: Go
 on:
   push:
     branches:
-      - '*'
+      - "*"
   pull_request:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   build:
+    name: Build app
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
-          stable: 'false'
-          go-version: '1.14.1'
+          stable: "false"
+          go-version: "1.14.1"
 
       - name: Get dependencies
         run: |
@@ -25,11 +26,90 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
           fi
+
       - name: Lint
-        if: ${{ failure() }}
         run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
-          golangci-lint run
+          mkdir -p .artifacts
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.39.0
+          golangci-lint run > ./.artifacts/linter.txt
+
       - name: Tests
+        if: ${{ always() }}
         run: |
           go test ./... -v
+
+      - name: Generate swagger files
+        if: ${{ always() }}
+        run: |
+          go get -u github.com/swaggo/swag/cmd/swag
+          swag init -g ./cmd/api/main.go -o ./docs
+          mv ./docs ./.artifacts
+          ls
+
+      - name: Archive linter artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: .artifacts
+
+  SonarQube:
+    name: Initialize sonarqube
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        name: Initialize Sonarqube
+        with:
+          fetch-depth: 0
+
+      - uses: docker://sonarsource/sonar-scanner-cli:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  CodeQL:
+    name: Initialize CodeQL
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["go"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  doc:
+    name: Publish to github pages
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui
+          spec-file: docs/swagger.json
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: swagger-ui

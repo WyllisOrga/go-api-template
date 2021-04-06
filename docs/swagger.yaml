@@ -1,26 +1,5 @@
 basePath: /api/v1
 definitions:
-  auth.requestLogin:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
-    type: object
-  auth.requestRegister:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-      username:
-        type: string
-    type: object
-  auth.responseRegister:
-    properties:
-      message:
-        type: string
-    type: object
   httputil.HTTPError:
     properties:
       code:
@@ -28,6 +7,22 @@ definitions:
         type: integer
       message:
         example: status bad request
+        type: string
+    type: object
+  models.RequestLogin:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.RequestRegister:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
         type: string
     type: object
   sample.Sample:
@@ -86,7 +81,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/auth.requestLogin'
+          $ref: '#/definitions/models.RequestLogin'
       produces:
       - application/json
       responses:
@@ -112,14 +107,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/auth.requestRegister'
+          $ref: '#/definitions/models.RequestRegister'
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: message
           schema:
-            $ref: '#/definitions/auth.responseRegister'
+            type: string
         "500":
           description: Internal Server Error
           schema:

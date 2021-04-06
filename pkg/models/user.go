@@ -10,6 +10,11 @@ type RequestRegister struct {
 	Email    string `json:"email"`
 }
 
+type RequestLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type User struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
@@ -26,7 +31,7 @@ func GetUser(username string) (user *User, err error) {
 	sql := `
 		SELECT email, password, role 
 		FROM users 
-		WHERE Username = ?
+		WHERE username = ?
 	`
 	req, err := DB.Prepare(sql)
 	if err != nil {
